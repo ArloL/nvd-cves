@@ -19,6 +19,8 @@ jobs:
       with:
         persist-credentials: false
     - name: Run cve-playground
+      env:
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
       run: |
         set -o xtrace
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ArloL/cve-playground/HEAD/run-latest.sh)"
