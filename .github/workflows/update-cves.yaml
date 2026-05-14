@@ -1,0 +1,36 @@
+name: Update CVEs
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "13 */2 * * *"
+permissions: {}
+concurrency: update-cves
+
+jobs:
+  update-cvess:
+    name: CVE Playground
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+    - name: Run cve-playground
+      run: |
+        set -o xtrace
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ArloL/cve-playground/HEAD/run-latest.sh)"
+    - name: Commit and push changes
+      run: |
+        set -o xtrace
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add --all
+        if git diff --cached --quiet; then
+          echo "No changes to commit"
+          exit 0
+        fi
+        git commit --message "chore: update cves"
+        git push
