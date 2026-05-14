@@ -1,0 +1,45 @@
+name: Update CVEs
+
+on:
+  workflow_dispatch:
+    inputs:
+      full_import:
+        description: Run full import
+        type: boolean
+        default: false
+  schedule:
+  - cron: "13 */2 * * *"
+permissions: {}
+concurrency: update-cves
+
+jobs:
+  update-cves:
+    name: Update CVEs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        fetch-depth: 1
+        persist-credentials: true
+    - name: Run cve-playground
+      env:
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        FULL_IMPORT: ${{ inputs.full_import || false }}
+      run: |
+        set -o xtrace
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ArloL/cve-playground/HEAD/run-latest.sh)" run-latest -full="${FULL_IMPORT}"
+    - name: Commit and push changes
+      run: |
+        set -o xtrace
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add --all
+        if git diff --cached --quiet; then
+          echo "No changes to commit"
+          exit 0
+        fi
+        git commit --message "chore: update cves"
+        git push
