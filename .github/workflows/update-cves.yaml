@@ -9,7 +9,7 @@ concurrency: update-cves
 
 jobs:
   update-cves:
-    name: CVE Playground
+    name: Update CVEs
     runs-on: ubuntu-latest
     permissions:
       contents: write
