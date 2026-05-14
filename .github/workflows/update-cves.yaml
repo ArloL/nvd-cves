@@ -8,7 +8,7 @@ permissions: {}
 concurrency: update-cves
 
 jobs:
-  update-cvess:
+  update-cves:
     name: CVE Playground
     runs-on: ubuntu-latest
     permissions:
