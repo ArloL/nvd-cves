@@ -12,6 +12,7 @@ jobs:
     uses: ./.github/workflows/cve-import.yaml
     permissions:
       contents: write
-    secrets: inherit
+    secrets:
+      NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
     with:
       full_import: true
