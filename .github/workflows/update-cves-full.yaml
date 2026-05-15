@@ -1,17 +1,17 @@
-name: Update CVEs
+name: Update CVEs (full)
 
 on:
   workflow_dispatch:
   schedule:
-  - cron: "13 */2 * * *"
+  - cron: "34 4 * * *"
 permissions: {}
 
 jobs:
   update-cves:
-    name: Update CVEs
+    name: Update CVEs (full)
     uses: ./.github/workflows/cve-import.yaml
     permissions:
       contents: write
     secrets: inherit
     with:
-      full_import: false
+      full_import: true
