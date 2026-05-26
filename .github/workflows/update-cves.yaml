@@ -9,9 +9,9 @@ permissions: {}
 jobs:
   update-cves:
     name: Update CVEs
-    uses: ./.github/workflows/cve-import.yaml
     permissions:
       contents: write
+    uses: ./.github/workflows/cve-import.yaml
     secrets:
       NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
     with:
