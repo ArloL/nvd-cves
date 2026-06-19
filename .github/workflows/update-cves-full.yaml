@@ -5,6 +5,7 @@ on:
   schedule:
   - cron: "34 4 * * *"
 permissions: {}
+concurrency: update-cves
 
 jobs:
   update-cves:
