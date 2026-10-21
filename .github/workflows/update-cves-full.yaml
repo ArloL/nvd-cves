@@ -12,7 +12,7 @@ jobs:
     name: Update CVEs (full)
     permissions:
       contents: write
-    uses: ./.github/workflows/cve-import.yaml
+    uses: $/.github/workflows/cve-import.yaml
     secrets:
       NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
     with:
