@@ -3,7 +3,8 @@ name: Update CVEs (full)
 on:
   workflow_dispatch:
   schedule:
-  - cron: "34 4 * * *"
+  # 4x daily during the fetch experiment; back to "34 4 * * *" afterwards.
+  - cron: "34 4,10,16,22 * * *"
 permissions: {}
 concurrency: update-cves
 
